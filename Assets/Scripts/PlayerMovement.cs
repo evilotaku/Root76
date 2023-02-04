@@ -14,7 +14,7 @@ public class PlayerMovement : NetworkBehaviour
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
-        movement.action.performed += Action_performed;
+        //movement.action.performed += Action_performed;
         rb = GetComponent<Rigidbody>();
 
     }
