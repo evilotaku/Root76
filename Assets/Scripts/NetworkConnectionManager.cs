@@ -43,6 +43,7 @@ public class NetworkConnectionManager : NetworkBehaviour
 
         print($"Logged in as {AuthenticationService.Instance.PlayerId} ");
         VivoxService.Instance.Initialize();
+        DontDestroyOnLoad(this);
     }
 
 
