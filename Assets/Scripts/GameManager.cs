@@ -6,18 +6,20 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
+
     enum State {
-        idle,   //the "game loop" isn't running
-        rhythm,  //the game loop is running, rhythm gameplay
-        racing,  //the game loop is running, racing gameplay
-        end  // "stop" the game loop
+        IDLE,   //the "game loop" isn't running                 0
+        WARMUP, //the game loop is about to start               1
+        RHYTHM,  //the game loop is running, rhythm gameplay    2
+        RACE,  //the game loop is running, racing gameplay    3
+        END  // "stop" the game loop                            4
     }
 
     State gameState;
 
     //I recognize that this is bad architecture
     //I also do not give a FUCK
-    public UnityEvent OnIdleStart, OnRhythmStart, OnRacingStart, OnEndingStart;
+    public UnityEvent OnIdleStart, OnWarmupStart, OnRhythmStart, OnRacingStart, OnEndingStart;
 
     void Awake(){
 
@@ -29,27 +31,37 @@ public class GameManager : MonoBehaviour
         }
 
         //set game state
-        instance.gameState = State.idle;
+        instance.gameState = State.IDLE;
     }
 
-    void SetGameState(State state){
-
-        if(state == State.idle){
-            OnIdleStart.Invoke();
+    public void SetGameState(int state){
+        switch(state){
+            // set game loop to IDLE
+            case 0:
+                instance.gameState = State.IDLE;
+                OnIdleStart.Invoke();
+                break;
+            // set game loop to WARMUP
+            case 1:
+                instance.gameState = State.WARMUP;
+                OnWarmupStart.Invoke();
+                break;
+            // set game loop to WARMUP
+            case 2:
+                instance.gameState = State.RHYTHM;
+                OnRhythmStart.Invoke(); 
+                break;
+            // set game loop to RHYTHM
+            case 3:
+                instance.gameState = State.RACE;
+                OnRacingStart.Invoke();
+                break;
+            // set game loop to END
+            case 4:
+                instance.gameState = State.END;
+                OnEndingStart.Invoke();
+                break;
         }
-
-        if(state == State.racing){
-            OnRacingStart.Invoke();
-        }
-
-        if(state == State.racing){
-            OnRhythmStart.Invoke();
-        }
-
-        if(state == State.end){
-            OnEndingStart.Invoke();
-        }
-
     }
 
 }
