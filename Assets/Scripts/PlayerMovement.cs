@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     public InputActionReference movement;
     public float speed;
+    Rigidbody rb;
    
 
     // Start is called before the first frame update
-    void Start()
+    public override void OnNetworkSpawn()
     {
         movement.action.performed += Action_performed;
+        rb = GetComponent<Rigidbody>();
+
     }
 
     private void Action_performed(InputAction.CallbackContext ctx)
@@ -31,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
         Vector3 input = new(movement.action.ReadValue<Vector2>().x, 0, movement.action.ReadValue<Vector2>().y);
-        transform.position += input * speed * Time.deltaTime;
+        rb.AddForce(input * speed);
     }
 }
