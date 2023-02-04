@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
+    public CancellationTokenSource cancelSource = new();
 
     enum State {
         IDLE,   //the "game loop" isn't running                 0
@@ -19,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     //I recognize that this is bad architecture
     //I also do not give a FUCK
-    public UnityEvent OnIdleStart, OnWarmupStart, OnRhythmStart, OnRacingStart, OnEndingStart;
+    public UnityAction OnIdleStart, OnWarmupStart, OnRhythmStart, OnRacingStart, OnEndingStart;
 
     void Awake(){
 
@@ -62,6 +66,27 @@ public class GameManager : MonoBehaviour
                 OnEndingStart.Invoke();
                 break;
         }
+    }
+
+    public void NextState()
+    {
+        SetGameState((int)gameState++);
+    }
+
+    public void StartGame()
+    {
+
+    }
+
+    public async Task Timer(float amount, IProgress<float> progress, CancellationToken cancelToken)
+    {
+        for (int i = 0; i <= amount; i++)
+        {
+            if (cancelToken.IsCancellationRequested) break;
+            await Task.Delay(1000);
+            progress?.Report(i / amount);
+        }
+        Debug.Log("Times Up!");
     }
 
 }

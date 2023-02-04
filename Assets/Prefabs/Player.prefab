@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: -1680190386980627800, guid: ca9f5fa95ffab41fb9a615ab714db018,
     type: 3}
-  speed: 10
+  speed: 5
 --- !u!54 &1089698244953566020
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,7 +207,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8077657088491938210}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
