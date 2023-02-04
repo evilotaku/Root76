@@ -174,6 +174,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         print($"Starting Server on {ipv4address} : {port}");
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(ipv4address, port, allocationIdBytes, key, connectionData);
         NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SceneManager.LoadScene("scenes/RaceScene",UnityEngine.SceneManagement.LoadSceneMode.Single);
         yield return null;
     }
 
@@ -293,7 +294,7 @@ public class NetworkConnectionManager : NetworkBehaviour
                 // Handle error
                 return;
             }
-            // At this point, we have successfully requested to login. 
+            // At this point, we have successfully requested to login.ï¿½
             // When you are able to join channels, LoginSession.State will be set to LoginState.LoggedIn.
             // Reference LoginSession_PropertyChanged()
         });
