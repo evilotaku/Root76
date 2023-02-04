@@ -55,7 +55,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8077657088491938210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -107,7 +107,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -252,7 +252,7 @@ PrefabInstance:
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
@@ -262,7 +262,7 @@ PrefabInstance:
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
@@ -272,12 +272,12 @@ PrefabInstance:
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
@@ -287,7 +287,7 @@ PrefabInstance:
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 1789391981882508025, guid: 8c5c83e337bccec4d8b17df8e389a150,
         type: 3}
@@ -302,7 +302,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1413816005183559747, guid: 8c5c83e337bccec4d8b17df8e389a150,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8110539098532011046}
+    - targetCorrespondingSourceObject: {fileID: 1413816005183559747, guid: 8c5c83e337bccec4d8b17df8e389a150,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2006421884127689940}
   m_SourcePrefab: {fileID: 100100000, guid: 8c5c83e337bccec4d8b17df8e389a150, type: 3}
 --- !u!4 &7133074358740449702 stripped
 Transform:
@@ -310,3 +318,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8802557947795340127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7617299986310210332 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1413816005183559747, guid: 8c5c83e337bccec4d8b17df8e389a150,
+    type: 3}
+  m_PrefabInstance: {fileID: 8802557947795340127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8110539098532011046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7617299986310210332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8261e6f2e5fac44da64da2b23939e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorDefault: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  colorSelected: {r: 0.25, g: 0.65, b: 0.8, a: 1}
+--- !u!65 &2006421884127689940
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7617299986310210332}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.85, y: 1.5, z: 2.04}
+  m_Center: {x: 0, y: 0.77, z: 0}
