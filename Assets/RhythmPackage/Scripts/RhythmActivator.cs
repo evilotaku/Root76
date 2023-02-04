@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RhythmActivator : MonoBehaviour
 {
-    SpriteRenderer sr;
+    Image image;
     public bool active = false;
     public GameObject note;
     Color oldC;
@@ -20,7 +21,7 @@ public class RhythmActivator : MonoBehaviour
     void Start()
     {
       RSM = GameObject.FindWithTag("RhythmManager");
-      sr = GetComponent<SpriteRenderer>();
+      image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -76,9 +77,9 @@ public class RhythmActivator : MonoBehaviour
 
     IEnumerator Pressed()
     {
-      oldC = sr.color;
-      sr.color = new Color(0, 0, 0);
+      oldC = image.color;
+      image.color = new Color(0, 0, 0);
       yield return new WaitForSeconds(0.1f);
-      sr.color=oldC;
+      image.color=oldC;
     }
 }
