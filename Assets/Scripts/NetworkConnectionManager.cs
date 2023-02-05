@@ -20,7 +20,7 @@ public class NetworkConnectionManager : NetworkBehaviour
     public bool VoiceChat;
     int MaxConnections = 100;
     string RelayCode;
-    Lobby lobby;
+    public Lobby lobby;
     ILoginSession LoginSession;
 
 
@@ -77,7 +77,7 @@ public class NetworkConnectionManager : NetworkBehaviour
             options.Filter = new List<QueryFilter>()
             {
                 new QueryFilter(field: QueryFilter.FieldOptions.MaxPlayers,
-                                value: "10",
+                                value: "4",
                                 op: QueryFilter.OpOptions.GE
                                 )
             };
@@ -103,6 +103,15 @@ public class NetworkConnectionManager : NetworkBehaviour
         }
 
 
+    }
+
+    /*async public void CreateLobby(string name)
+    {
+        await Lobbies.Instance.CreateLobbyAsync(name, 4);
+    }*/
+    async public void JoinLobby(string lobbyID)
+    {
+        await Lobbies.Instance.JoinLobbyByIdAsync(lobbyID);
     }
 
     async public void StartClient()

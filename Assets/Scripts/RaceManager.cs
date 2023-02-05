@@ -45,8 +45,8 @@ public class RaceManager : NetworkBehaviour
         print("Spawning Obstacles...");
         for (int i = 0; i < ObstacleAmount; i++)
         {
-            Vector3 pos = new Vector3(Random.insideUnitCircle.x * transform.localScale.x * 10, 0, 
-                                        Random.insideUnitCircle.y * transform.localScale.x * 10);
+            Vector3 pos = new Vector3(Random.insideUnitCircle.x * transform.localScale.x * 2, 0, 
+                                        Random.insideUnitCircle.y * transform.localScale.x * 2);
             var prefab = Instantiate(ObstaclePrefab, pos , Quaternion.identity);
             prefab.GetComponent<NetworkObject>().Spawn();
             ObstacleList.Add(prefab);
