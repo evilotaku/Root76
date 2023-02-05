@@ -27,6 +27,7 @@ public class ScoreableObject : NetworkBehaviour
         {
             print("Boom!");
             rb.AddExplosionForce(100f, collision.transform.position, 10f);
+            NetworkObject.Despawn();
         }
     }
 

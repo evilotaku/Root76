@@ -52,6 +52,7 @@ public class RaceManager : NetworkBehaviour
             ObstacleList.Add(prefab);
         }
         ObstacleTarget.Value = ObstacleList[Random.Range(0, ObstacleAmount)];
+        print($"Obstacle Target is NetObjID: {ObstacleTarget.Value.NetworkObjectId}");
     }
 
     // Update is called once per frame

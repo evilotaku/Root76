@@ -32,8 +32,8 @@ public class ArrowIndicator : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
-    {       
-        
+    {
+        if (target == null) return;
         transform.LookAt(target?.transform);
         Renderer.material.color = Color.Lerp(Color.red, Color.green, Vector3.Distance(transform.position, target.transform.position));
     }
