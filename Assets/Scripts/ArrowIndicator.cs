@@ -9,12 +9,13 @@ public class ArrowIndicator : NetworkBehaviour
     public float height;
     Renderer Renderer;
     public NetworkObject target;
+    float maxDist;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        RaceManager.Instance.ObstacleTarget.OnValueChanged += TargetChanged;
     }
 
     public override void OnNetworkSpawn()
@@ -22,20 +23,30 @@ public class ArrowIndicator : NetworkBehaviour
         base.OnNetworkSpawn();
 
         Renderer = GetComponent<Renderer>();
-        RaceManager.Instance.ObstacleTarget.OnValueChanged += TargetChanged;
+        if (!IsOwner) Renderer.enabled = false;
+        
     }
 
     private void TargetChanged(NetworkObjectReference previousValue, NetworkObjectReference newValue)
     {        
         newValue.TryGet(out target);
+        maxDist = Vector3.Distance(transform.position, target.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target == null) return;
-        transform.LookAt(target?.transform);
-        Renderer.material.color = Color.Lerp(Color.red, Color.green, Vector3.Distance(transform.position, target.transform.position));
+        RaceManager.Instance.ObstacleTarget.Value.TryGet(out target);
+        if (target == null || !IsOwner)
+        {
+            Renderer.enabled = false;
+            return;
+        }
+        Renderer.enabled = true;
+        transform.parent.LookAt(target.transform);
+        var dist = Vector3.Distance(transform.position, target.transform.position);
+        //print($"we are {dist} away from target...");
+        Renderer.material.color = Color.Lerp(Color.green, Color.red, dist / maxDist);
     }
     private void FixedUpdate()
     {

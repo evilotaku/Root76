@@ -22,7 +22,7 @@ public class RaceManager : NetworkBehaviour
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
-        if(Instance != null) Instance = this;
+        if(Instance == null) Instance = this;
         //GetComponent<AudioSource>().Play();
         TimerPanel = GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject;
         
