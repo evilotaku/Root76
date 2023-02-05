@@ -21,16 +21,16 @@ public class GameManager : NetworkBehaviour
     enum State {
         IDLE,   //the "game loop" isn't running                 0
         WARMUP, //the game loop is about to start               1
-        RHYTHM,  //the game loop is running, rhythm gameplay    2
-        RACE,  //the game loop is running, racing gameplay    3
-        END  // "stop" the game loop                            4
+        RACE,   //the game loop is running, racing gameplay     2
+        RHYTHM, //the game loop is running, rhythm gameplay     3                
+        END     // "stop" the game loop                         4
     }
 
     State gameState;
 
     //I recognize that this is bad architecture
     //I also do not give a FUCK
-    public UnityAction OnIdleStart, OnWarmupStart, OnRhythmStart, OnRacingStart, OnEndingStart;
+    public static UnityAction OnIdleStart, OnWarmupStart, OnRhythmStart, OnRacingStart, OnEndingStart;
 
     void Awake(){
 
@@ -63,8 +63,10 @@ public class GameManager : NetworkBehaviour
         PlayerCount++;
     }
 
-    public void SetGameState(int state){
-        switch(state){
+    public void SetGameState(int state)
+    {
+        state  %= Enum.GetNames(typeof(State)).Length;
+        switch (state){
             // set game loop to IDLE
             case 0:
                 instance.gameState = State.IDLE;
@@ -76,12 +78,12 @@ public class GameManager : NetworkBehaviour
                 OnWarmupStart?.Invoke();
                 break;
             // set game loop to RHYTHM
-            case 2:
+            case 3:
                 instance.gameState = State.RHYTHM;
                 OnRhythmStart?.Invoke(); 
                 break;
             // set game loop to RACE
-            case 3:
+            case 2:
                 instance.gameState = State.RACE;
                 OnRacingStart?.Invoke();
                 break;
@@ -96,12 +98,15 @@ public class GameManager : NetworkBehaviour
     public void NextState()
     {
         gameState++;
-        var new_state = (int)gameState % Enum.GetNames(typeof(State)).Length;
-        SetGameState(new_state);
+        print($"Game is now in {gameState}");
+        //gameState %= Enum.GetNames(typeof(State)).Length;
+        SetGameState((int)gameState);
     }
 
-    public void StartGame()
+    [ClientRpc]
+    public void StartGameClientRPC()
     {
+        print("Starting the Countdown!");
         SetGameState((int)State.WARMUP);
     }
 
@@ -111,7 +116,7 @@ public class GameManager : NetworkBehaviour
         if(NetworkManager.ConnectedClientsList.Count == 2 &&
             gameState == State.IDLE)
         {
-            StartGame();
+            StartGameClientRPC();
         }
     }
 
@@ -124,6 +129,11 @@ public class GameManager : NetworkBehaviour
             progress?.Report(i / amount);
         }
         Debug.Log("Times Up!");
+    }
+
+    private void OnDisable()
+    {
+        cancelSource.Cancel();
     }
 
 }

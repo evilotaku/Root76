@@ -37,7 +37,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         }
 #endif
 
-        NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
+        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         await UnityServices.InitializeAsync(options);
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
@@ -58,7 +58,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         response.PlayerPrefabHash = null;
 
         // Position to spawn the player object (if null it uses default of Vector3.zero)
-        response.Position = UnityEngine.Random.insideUnitCircle;
+        response.Position = UnityEngine.Random.insideUnitCircle * 5f;
 
         // Rotation to spawn the player object (if null it uses the default of Quaternion.identity)
         response.Rotation = Quaternion.LookRotation(-response.Position.Value);

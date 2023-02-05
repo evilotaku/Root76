@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
 public class ArrowIndicator : NetworkBehaviour
 {
     public float height;
     Renderer Renderer;
+    public NetworkObject target;
 
 
     // Start is called before the first frame update
@@ -20,13 +22,20 @@ public class ArrowIndicator : NetworkBehaviour
         base.OnNetworkSpawn();
 
         Renderer = GetComponent<Renderer>();
+        RaceManager.Instance.ObstacleTarget.OnValueChanged += TargetChanged;
+    }
+
+    private void TargetChanged(NetworkObjectReference previousValue, NetworkObjectReference newValue)
+    {        
+        newValue.TryGet(out target);
     }
 
     // Update is called once per frame
     void Update()
-    {
-        transform.LookAt(RaceManager.Instance.ObstacleTarget.transform);
-        Renderer.material.color = Color.Lerp(Color.red, Color.green, Vector3.Distance(transform.position, RaceManager.Instance.ObstacleTarget.transform.position));
+    {       
+        
+        transform.LookAt(target?.transform);
+        Renderer.material.color = Color.Lerp(Color.red, Color.green, Vector3.Distance(transform.position, target.transform.position));
     }
     private void FixedUpdate()
     {

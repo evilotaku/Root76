@@ -14,9 +14,9 @@ public class RaceManager : NetworkBehaviour
     public float RaceTime;
     public Slider RaceTimer;
     GameObject TimerPanel;
-    int ObstacleAmount;
-    GameObject ObstaclePrefab;
-    public GameObject ObstacleTarget;
+    public int ObstacleAmount;
+    public GameObject ObstaclePrefab;
+    public NetworkVariable<NetworkObjectReference> ObstacleTarget = new();
     List<GameObject> ObstacleList = new();
     
     // Start is called before the first frame update
@@ -24,31 +24,34 @@ public class RaceManager : NetworkBehaviour
     {
         if(Instance != null) Instance = this;
         //GetComponent<AudioSource>().Play();
-        TimerPanel = GameObject.Find("Timer Panel");
+        TimerPanel = GameObject.Find("Canvas").transform.Find("Timer Panel").gameObject;
         
-        GameManager.instance.OnRacingStart += async () =>
+        GameManager.OnRacingStart += async () =>
         {
-            TimerPanel.SetActive(true);
+            print("Starting the Race");
+            TimerPanel?.SetActive(true);
+            if (NetworkManager.Singleton.IsServer) SpawnObstacles();
             await GameManager.instance.Timer(RaceTime, new Progress<float>(percent =>
             {
                 print($"Timer: {percent} ");
                 RaceTimer.value = percent;
-            }), GameManager.instance.cancelSource.Token);
-            if (IsServer) SpawnObstacles();
+            }), GameManager.instance.cancelSource.Token);            
             GameManager.instance.NextState();
         };
     }   
 
     void SpawnObstacles()
     {
+        print("Spawning Obstacles...");
         for (int i = 0; i < ObstacleAmount; i++)
         {
-            var pos = new Vector3(Random.insideUnitCircle.x, 0, UnityEngine.Random.insideUnitCircle.y);
-            var prefab = Instantiate(ObstaclePrefab, pos * 10, Quaternion.identity);
+            Vector3 pos = new Vector3(Random.insideUnitCircle.x * transform.localScale.x, 0, 
+                                        Random.insideUnitCircle.y * transform.localScale.x);
+            var prefab = Instantiate(ObstaclePrefab, pos , Quaternion.identity);
             prefab.GetComponent<NetworkObject>().Spawn();
             ObstacleList.Add(prefab);
         }
-        ObstacleTarget = ObstacleList[Random.Range(0, ObstacleAmount)];
+        ObstacleTarget.Value = ObstacleList[Random.Range(0, ObstacleAmount)];
     }
 
     // Update is called once per frame
