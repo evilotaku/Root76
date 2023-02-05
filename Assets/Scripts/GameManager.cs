@@ -5,11 +5,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using Unity.Netcode;
+using TMPro;
+using UnityEditor;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager instance { get; private set; }
     public CancellationTokenSource cancelSource = new();
+    public TMP_Text Countdown_Text;
+    public float Countdown;
+
 
     enum State {
         IDLE,   //the "game loop" isn't running                 0
@@ -33,9 +39,22 @@ public class GameManager : MonoBehaviour
         } else {
             instance = this;
         }
+        OnIdleStart += async () =>
+        {
+            Countdown_Text.gameObject.SetActive(true);
+            await Timer(Countdown, new Progress<float>(percent =>
+            {
+                print($"Timer: {percent} ");
+                Countdown_Text.text = $"{(int)(Countdown - (Countdown * percent))}";
+            }), cancelSource.Token);
+            Countdown_Text.text = "GO!";
+            await Task.Delay(1000);
+            Countdown_Text.gameObject.SetActive(false);
+            NextState();
+        };
 
         //set game state
-        instance.gameState = State.IDLE;
+        SetGameState((int)State.IDLE);
     }
 
     public void SetGameState(int state){
@@ -43,34 +62,36 @@ public class GameManager : MonoBehaviour
             // set game loop to IDLE
             case 0:
                 instance.gameState = State.IDLE;
-                OnIdleStart.Invoke();
+                OnIdleStart?.Invoke();
                 break;
             // set game loop to WARMUP
             case 1:
                 instance.gameState = State.WARMUP;
-                OnWarmupStart.Invoke();
+                OnWarmupStart?.Invoke();
                 break;
             // set game loop to WARMUP
             case 2:
                 instance.gameState = State.RHYTHM;
-                OnRhythmStart.Invoke(); 
+                OnRhythmStart?.Invoke(); 
                 break;
             // set game loop to RHYTHM
             case 3:
                 instance.gameState = State.RACE;
-                OnRacingStart.Invoke();
+                OnRacingStart?.Invoke();
                 break;
             // set game loop to END
             case 4:
                 instance.gameState = State.END;
-                OnEndingStart.Invoke();
+                OnEndingStart?.Invoke();
                 break;
         }
     }
 
     public void NextState()
     {
-        SetGameState((int)gameState++);
+        gameState++;
+        var new_state = (int)gameState % Enum.GetNames(typeof(State)).Length;
+        SetGameState(new_state);
     }
 
     public void StartGame()
