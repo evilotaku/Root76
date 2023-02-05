@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
     public CancellationTokenSource cancelSource = new();
     public TMP_Text Countdown_Text;
     public float Countdown;
+    public int PlayerCount = 0;
 
 
     enum State {
@@ -39,7 +40,7 @@ public class GameManager : NetworkBehaviour
         } else {
             instance = this;
         }
-        OnIdleStart += async () =>
+        OnWarmupStart += async () =>
         {
             Countdown_Text.gameObject.SetActive(true);
             await Timer(Countdown, new Progress<float>(percent =>
@@ -57,6 +58,11 @@ public class GameManager : NetworkBehaviour
         SetGameState((int)State.IDLE);
     }
 
+    public void OnClientConnect(ulong clientId)
+    {
+        PlayerCount++;
+    }
+
     public void SetGameState(int state){
         switch(state){
             // set game loop to IDLE
@@ -69,12 +75,12 @@ public class GameManager : NetworkBehaviour
                 instance.gameState = State.WARMUP;
                 OnWarmupStart?.Invoke();
                 break;
-            // set game loop to WARMUP
+            // set game loop to RHYTHM
             case 2:
                 instance.gameState = State.RHYTHM;
                 OnRhythmStart?.Invoke(); 
                 break;
-            // set game loop to RHYTHM
+            // set game loop to RACE
             case 3:
                 instance.gameState = State.RACE;
                 OnRacingStart?.Invoke();
@@ -96,7 +102,17 @@ public class GameManager : NetworkBehaviour
 
     public void StartGame()
     {
+        SetGameState((int)State.WARMUP);
+    }
 
+    private void Update()
+    {
+        if (!IsServer) return;
+        if(NetworkManager.ConnectedClientsList.Count == 2 &&
+            gameState == State.IDLE)
+        {
+            StartGame();
+        }
     }
 
     public async Task Timer(float amount, IProgress<float> progress, CancellationToken cancelToken)

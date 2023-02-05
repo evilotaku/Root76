@@ -16,6 +16,10 @@ public class PlayerMovement : NetworkBehaviour
     {
         //movement.action.performed += Action_performed;
         rb = GetComponent<Rigidbody>();
+        GameManager.instance.OnRacingStart += () =>
+        {
+            enabled = true;
+        };
 
     }
 
@@ -38,5 +42,6 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner) return;
         Vector3 input = new(movement.action.ReadValue<Vector2>().x, 0, movement.action.ReadValue<Vector2>().y);
         rb.AddForce(input * speed);
+        rb.MoveRotation(Quaternion.LookRotation(input));
     }
 }

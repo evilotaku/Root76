@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class ScoreableObject : NetworkBehaviour
 {
@@ -29,7 +26,7 @@ public class ScoreableObject : NetworkBehaviour
         if (collision.transform.TryGetComponent(out PlayerRaceController obj))
         {
             print("Boom!");
-            rb.AddExplosionForce(100f, collision.transform.position, 1f);
+            rb.AddExplosionForce(100f, collision.transform.position, 10f);
         }
     }
 
