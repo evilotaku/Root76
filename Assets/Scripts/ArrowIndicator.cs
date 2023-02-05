@@ -46,7 +46,7 @@ public class ArrowIndicator : NetworkBehaviour
         transform.parent.LookAt(target.transform);
         var dist = Vector3.Distance(transform.position, target.transform.position);
         //print($"we are {dist} away from target...");
-        Renderer.material.color = Color.Lerp(Color.green, Color.red, dist / maxDist);
+        Renderer.material.color = Color.Lerp(Color.red, Color.green, 2f/dist);
     }
     private void FixedUpdate()
     {
