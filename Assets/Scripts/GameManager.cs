@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using Unity.Netcode;
 using TMPro;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
@@ -16,6 +17,8 @@ public class GameManager : NetworkBehaviour
     public TMP_Text Countdown_Text;
     public float Countdown;
     public int PlayerCount = 0;
+    public Slider Timerbar;
+    public NetworkObject RhythmCanvas;
 
 
     enum State {
@@ -54,6 +57,20 @@ public class GameManager : NetworkBehaviour
             NextState();
         };
 
+        OnRhythmStart += async () =>
+        {
+            if (!NetworkManager.Singleton.IsServer) return;
+            var rhythm = Instantiate(RhythmCanvas);
+            rhythm.Spawn();
+            await Timer(40f, new Progress<float>(percent =>
+            {
+                print($"Timer: {percent} ");
+                Timerbar.value = percent;
+            }), cancelSource.Token);
+            rhythm.Despawn();
+            SetGameState((int)State.RACE);
+
+        };
         //set game state
         SetGameState((int)State.IDLE);
     }

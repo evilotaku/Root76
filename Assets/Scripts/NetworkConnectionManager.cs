@@ -13,7 +13,9 @@ using Unity.Services.Relay.Models;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Vivox;
 using VivoxUnity;
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
 
 public class NetworkConnectionManager : NetworkBehaviour
 {
@@ -161,7 +163,7 @@ public class NetworkConnectionManager : NetworkBehaviour
     }
 
 
-    public IEnumerator StartHost()
+    public IEnumerator StartHost(string name = "Main Lobby")
     {
         var serverRelayUtilityTask = AllocateRelayServerAndGetJoinCode(MaxConnections);
         while (!serverRelayUtilityTask.IsCompleted)
@@ -178,7 +180,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         // Display the joinCode to the user.
         print($"joinCode: {joinCode}");
 
-        var task = CreateLobby(joinCode);
+        var task = CreateLobby(name, joinCode);
 
         // When starting a Relay server, both instances of connection data are identical.
         print($"Starting Server on {ipv4address} : {port}");
@@ -217,7 +219,7 @@ public class NetworkConnectionManager : NetworkBehaviour
 
         return (allocation.RelayServer.IpV4, (ushort)allocation.RelayServer.Port, allocation.AllocationIdBytes, allocation.ConnectionData, allocation.Key, createJoinCode);
     }
-    async Task CreateLobby(string relayCode)
+    async Task CreateLobby(string name, string relayCode)
     {
         try
         {
@@ -234,7 +236,7 @@ public class NetworkConnectionManager : NetworkBehaviour
                     )
                 }
             };
-            lobby = await Lobbies.Instance.CreateLobbyAsync("Main Lobby", MaxConnections, options);
+            lobby = await Lobbies.Instance.CreateLobbyAsync(name, MaxConnections, options);
             print($"Lobby {lobby.Id} is created with Lobby code {lobby.LobbyCode}");
             StartCoroutine(HearbeatLobby(lobby.Id, 15));
         }
