@@ -19,6 +19,7 @@ using ParrelSync;
 
 public class NetworkConnectionManager : NetworkBehaviour
 {
+    public static NetworkConnectionManager Instance;
     public bool VoiceChat;
     int MaxConnections = 100;
     string RelayCode;
@@ -29,6 +30,7 @@ public class NetworkConnectionManager : NetworkBehaviour
     // Start is called before the first frame update
     async void Start()
     {
+        if (Instance == null) Instance = this;
         var options = new InitializationOptions();
 #if UNITY_EDITOR
         if (ClonesManager.IsClone())
@@ -54,7 +56,7 @@ public class NetworkConnectionManager : NetworkBehaviour
 
         // Your approval logic determines the following values
         response.Approved = true;
-        response.CreatePlayerObject = true;
+        response.CreatePlayerObject = false;
 
         // The prefab hash value of the NetworkPrefab, if null the default NetworkManager player prefab is used
         response.PlayerPrefabHash = null;
@@ -86,7 +88,7 @@ public class NetworkConnectionManager : NetworkBehaviour
 
             options.Player = new Player();
 
-            Lobby lobby = await Lobbies.Instance.QuickJoinLobbyAsync();
+            lobby = await Lobbies.Instance.QuickJoinLobbyAsync();
             print($"Joined Lobby: {lobby.Name}");
             RelayCode = lobby.Data["RelayCode"].Value;
             StartClient();
@@ -103,8 +105,6 @@ public class NetworkConnectionManager : NetworkBehaviour
             print("Logging into Vivox Voice Chat...");
             VivoxLogin();
         }
-
-
     }
 
     /*async public void CreateLobby(string name)
@@ -113,7 +113,9 @@ public class NetworkConnectionManager : NetworkBehaviour
     }*/
     async public void JoinLobby(string lobbyID)
     {
-        await Lobbies.Instance.JoinLobbyByIdAsync(lobbyID);
+        lobby = await Lobbies.Instance.JoinLobbyByIdAsync(lobbyID);
+        RelayCode = lobby.Data["RelayCode"].Value;
+        StartClient();
     }
 
     async public void StartClient()
@@ -186,7 +188,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         print($"Starting Server on {ipv4address} : {port}");
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(ipv4address, port, allocationIdBytes, key, connectionData);
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("scenes/RaceScene",UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("scenes/CharacterSelectScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
         yield return null;
     }
 

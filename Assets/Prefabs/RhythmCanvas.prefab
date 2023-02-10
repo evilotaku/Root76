@@ -35,7 +35,7 @@ RectTransform:
   m_Children:
   - {fileID: 6658583393160875060}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -177,7 +177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.22317329}
-  m_AnchoredPosition: {x: -0.0025024, y: 0}
+  m_AnchoredPosition: {x: -0.0025024414, y: 0}
   m_SizeDelta: {x: 1111, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6658583393160875058
@@ -361,7 +361,7 @@ PrefabInstance:
       objectReference: {fileID: 6658583394148512679}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: m_Enabled
@@ -493,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 5721136205348027453}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: m_Enabled
@@ -625,7 +625,7 @@ PrefabInstance:
       objectReference: {fileID: 5721136205134223498}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: m_Enabled
@@ -757,7 +757,7 @@ PrefabInstance:
       objectReference: {fileID: 5721136206640910648}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: m_Enabled
@@ -889,7 +889,7 @@ PrefabInstance:
       objectReference: {fileID: 5721136206504991816}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1346822940, guid: bfdbbe5342449bd4baf673cbc05c0f58, type: 3}
       propertyPath: m_Enabled

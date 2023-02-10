@@ -6,6 +6,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using TMPro;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using ParrelSync;
 #endif
@@ -38,6 +39,8 @@ public class LobbyDisplay : MonoBehaviour
 
     public async void GetLobbies()
     {
+        foreach (GameObject lobby in LobbyView.transform) Destroy(lobby);
+
         QueryLobbiesOptions options = new();
         options.Filters = new List<QueryFilter>()
             {
@@ -54,6 +57,11 @@ public class LobbyDisplay : MonoBehaviour
             var item = Instantiate(LobbyPrefab, LobbyView.transform);
             item.GetComponentsInChildren<TMP_Text>()[0].text = lobby.Name;
             item.GetComponentsInChildren<TMP_Text>()[1].text = $"{lobby.Players.Count} / {lobby.MaxPlayers}";
+            item.GetComponentInChildren<Button>().onClick.AddListener(() => 
+            {
+                NetworkConnectionManager.Instance.JoinLobby(lobby.Id);
+            });
+            
         }
     }
 
