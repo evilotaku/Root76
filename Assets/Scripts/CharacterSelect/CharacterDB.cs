@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
 
 [CreateAssetMenu(menuName ="Characters/Database")]
 public class CharacterDB : ScriptableObject
@@ -17,5 +19,10 @@ public class CharacterDB : ScriptableObject
             }
         }
         return null;
+    }
+
+    public bool IsValid(int CharacterId)
+    {
+        return characters.Any(x => x.Id == CharacterId);
     }
 }

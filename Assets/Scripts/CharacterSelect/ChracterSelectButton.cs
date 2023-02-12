@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class ChracterSelectButton : MonoBehaviour
 {
     public Image iconImage;
+    public bool IsDisabled { get; private set; }
+    public Button button;
 
     CharacterSelectDisplay characterSelect;
-    CharacterSO character;
+    public CharacterSO character;
 
     public void SetCharacter(CharacterSelectDisplay _characterSelect, CharacterSO _character)
     {
@@ -20,5 +22,12 @@ public class ChracterSelectButton : MonoBehaviour
     public void SelectCharacter()
     {
         characterSelect.Select(character);
+    }
+
+    public void DisableButton()
+    {
+        IsDisabled = true;
+        iconImage.color /= 2;
+        button.interactable = false;
     }
 }

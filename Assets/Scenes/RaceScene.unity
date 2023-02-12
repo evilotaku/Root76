@@ -5602,73 +5602,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4144976, y: 5.5331287, z: 1.4144976}
   m_Center: {x: 0.0056387484, y: -0.14433086, z: -0.0008777976}
---- !u!1 &1971632628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1971632631}
-  - component: {fileID: 1971632629}
-  - component: {fileID: 1971632630}
-  m_Layer: 0
-  m_Name: Game Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1971632629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971632628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 570540136
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &1971632630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971632628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08c54464714ba894280a3024f8ae1fdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Countdown_Text: {fileID: 729956708}
-  Countdown: 5
-  PlayerCount: 0
-  Timerbar: {fileID: 221923147}
-  RhythmCanvas: {fileID: 8696260863461630658, guid: 93103e166028c9241b40b41c14464903,
-    type: 3}
---- !u!4 &1971632631
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971632628}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1380.9353, y: 502.0033, z: -0.79966736}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2022713941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6601,3 +6534,91 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4144976, y: 5.5331287, z: 1.4144976}
   m_Center: {x: 0.0056387484, y: -0.14433086, z: -0.0008777976}
+--- !u!1001 &4300127270820345654
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4300127270643945152, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: Timerbar
+      value: 
+      objectReference: {fileID: 221923147}
+    - target: {fileID: 4300127270643945152, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: Countdown_Text
+      value: 
+      objectReference: {fileID: 729956708}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1380.9353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 502.0033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.79966736
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945153, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945154, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: m_Name
+      value: Game Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300127270643945155, guid: 36af385bc7173c3468e0fa040e8e16f0,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2159013991
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36af385bc7173c3468e0fa040e8e16f0, type: 3}

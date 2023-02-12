@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerCard : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class PlayerCard : MonoBehaviour
             IconImage.enabled = false;
         }
 
-        PlayerName.text = $"Player {state.ClientID}";
+        PlayerName.text = state.IsReady ? $"Player {state.ClientID} Ready!" : 
+                                          $"Player {state.ClientID} Picking...";
         visuals.SetActive(true);
     }
 

@@ -10,6 +10,20 @@ using TMPro;
 using UnityEditor;
 using UnityEngine.UI;
 
+
+[Serializable]
+public struct ClientData
+{
+    public ulong clientID; //TODO: change this to Unity Player ID
+    public int characterId;
+
+    public ClientData(ulong _clientId, int _characterID = -1)
+    {
+        clientID = _clientId;
+        characterId = _characterID;
+    }
+}
+
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -19,6 +33,10 @@ public class GameManager : NetworkBehaviour
     public int PlayerCount = 0;
     public Slider Timerbar;
     public NetworkObject RhythmCanvas;
+    public string characterSelectScene = "scenes/CharacterSelectScene";
+    public string gameplayScene = "scenes/RaceScene";
+    public Dictionary<ulong, ClientData> ClientData = new();
+    public bool GameHasStarted;
 
 
     enum State {
@@ -43,6 +61,7 @@ public class GameManager : NetworkBehaviour
         } else {
             instance = this;
         }
+        DontDestroyOnLoad(gameObject);
         OnWarmupStart += async () =>
         {
             Countdown_Text.gameObject.SetActive(true);
@@ -73,6 +92,22 @@ public class GameManager : NetworkBehaviour
         };
         //set game state
         SetGameState((int)State.IDLE);
+    }
+
+    private void Start()
+    {
+        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
+    }
+    private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    {
+        if (ClientData.Count >= NetworkConnectionManager.Instance.MaxConnections || GameHasStarted)
+        {
+            response.Approved = false;
+            response.Reason = "Match is Full";
+            return;
+        }
+        ClientData[request.ClientNetworkId] = new ClientData(request.ClientNetworkId);
     }
 
     public void OnClientConnect(ulong clientId)
@@ -127,14 +162,31 @@ public class GameManager : NetworkBehaviour
         SetGameState((int)State.WARMUP);
     }
 
+    public void SetCharacter(ulong clientId, int characterId)
+    {
+        if (ClientData.TryGetValue(clientId, out ClientData data))
+        {
+            data.characterId = characterId;
+        }
+    }   
+
+    public void StartGame()
+    {
+        GameHasStarted = true;
+        StartGameClientRPC();
+        NetworkManager.Singleton.SceneManager.LoadScene(gameplayScene, UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
+
+
+
     private void Update()
     {
         if (!IsServer) return;
-        if(NetworkManager.ConnectedClientsList.Count == 2 &&
+/*        if(NetworkManager.ConnectedClientsList.Count == 2 &&
             gameState == State.IDLE)
         {
             StartGameClientRPC();
-        }
+        }*/
     }
 
     public async Task Timer(float amount, IProgress<float> progress, CancellationToken cancelToken)
@@ -146,6 +198,10 @@ public class GameManager : NetworkBehaviour
             progress?.Report(i / amount);
         }
         Debug.Log("Times Up!");
+    }
+    public void OnClientDisconnect(ulong clientID)
+    {
+        ClientData.Remove(clientID);
     }
 
     private void OnDisable()

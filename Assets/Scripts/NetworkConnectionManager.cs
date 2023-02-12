@@ -17,20 +17,25 @@ using VivoxUnity;
 using ParrelSync;
 #endif
 
+
+
 public class NetworkConnectionManager : NetworkBehaviour
 {
     public static NetworkConnectionManager Instance;
+    public string characterSelectScene = "scenes/CharacterSelectScene";
+    public string gameplayScene = "scenes/RaceScene";
     public bool VoiceChat;
-    int MaxConnections = 100;
+    public int MaxConnections = 5;
     string RelayCode;
     public Lobby lobby;
     ILoginSession LoginSession;
-
+   
 
     // Start is called before the first frame update
     async void Start()
     {
         if (Instance == null) Instance = this;
+        
         var options = new InitializationOptions();
 #if UNITY_EDITOR
         if (ClonesManager.IsClone())
@@ -41,7 +46,8 @@ public class NetworkConnectionManager : NetworkBehaviour
         }
 #endif
 
-        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        //NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         await UnityServices.InitializeAsync(options);
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
@@ -52,8 +58,7 @@ public class NetworkConnectionManager : NetworkBehaviour
 
 
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
-    {
-
+    {        
         // Your approval logic determines the following values
         response.Approved = true;
         response.CreatePlayerObject = false;
@@ -188,7 +193,7 @@ public class NetworkConnectionManager : NetworkBehaviour
         print($"Starting Server on {ipv4address} : {port}");
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(ipv4address, port, allocationIdBytes, key, connectionData);
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("scenes/CharacterSelectScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(characterSelectScene, UnityEngine.SceneManagement.LoadSceneMode.Single);
         yield return null;
     }
 
@@ -335,11 +340,11 @@ public class NetworkConnectionManager : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+    public void OnClientDisconnect(ulong clientID)
+    {        
+        if (NetworkManager.Singleton.LocalClientId == clientID) LogOff();
     }
+
 
     public void LogOff()
     {
@@ -355,7 +360,8 @@ public class NetworkConnectionManager : NetworkBehaviour
 
     void OnApplicationQuit()
     {
-        LogOff();
+        if(NetworkManager.Singleton.IsListening)
+            LogOff();
     }
 
 }
